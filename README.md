@@ -1,6 +1,6 @@
 # How To:  Replacing Your Ingress With the Novel Kubernetes Gateways
 
-This is the repository for the blog post [Replacing Your Ingress With the Novel Kubernetes Gateways](https://benchkram.de/blog/dev/how-to-replacing-your-ingress-with-the-novel-kubernetes-gateways).
+This is the repository for the blog post [Replacing Your Ingress With the Novel Kubernetes Gateways](https://benchkram.de/blog/dev/replace-kubernetes-ingress-with-gateway-api).
 
 ## Set up the Cluster with Ingress
 
