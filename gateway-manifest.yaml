@@ -1,0 +1,58 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: combined-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: service-a
+spec:
+  parentRefs:
+    - name: combined-gateway
+      sectionName: http
+  hostnames:
+    - localhost
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /service-a
+      #filters:
+      #  - type: URLRewrite
+      #    urlRewrite:
+      #      path:
+      #        type: ReplacePrefixMatch
+      backendRefs:
+        - name: service-a
+          port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: service-b
+spec:
+  parentRefs:
+    - name: combined-gateway
+      sectionName: http
+  hostnames:
+    - localhost
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /service-b
+      #filters:
+      #  - type: URLRewrite
+      #    urlRewrite:
+      #      path:
+      #        type: ReplacePrefixMatch
+      backendRefs:
+        - name: service-b
+          port: 8080

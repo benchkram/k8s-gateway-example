@@ -1,0 +1,59 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod-a
+  labels:
+    app.kubernetes.io/name: service-a
+spec:
+  containers:
+    - command:
+        - /agnhost
+        - netexec
+        - --http-port
+        - "8080"
+        - --http-override
+        - "/hostname"
+      image: registry.k8s.io/e2e-test-images/agnhost:2.43
+      name: pod-a
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-a
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: service-a
+  ports:
+    # Default port used by the image
+    - port: 8080
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod-b
+  labels:
+    app.kubernetes.io/name: service-b
+spec:
+  containers:
+    - command:
+        - /agnhost
+        - netexec
+        - --http-port
+        - "8080"
+        - --http-override
+        - "/hostname"
+      image: registry.k8s.io/e2e-test-images/agnhost:2.43
+      name: pod-b
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: service-b
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: service-b
+  ports:
+    # Default port used by the image
+    - port: 8080
